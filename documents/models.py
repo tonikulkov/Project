@@ -7,8 +7,6 @@ from django.contrib.auth.models import User
 class Role(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name="Название роли")
     level = models.IntegerField(default=0, verbose_name="Уровень доступа") 
-
-    
     class Meta:
         verbose_name = "Роль"
         verbose_name_plural = "Роли"
@@ -47,9 +45,7 @@ class Document(models.Model):
         if self.file:
             ext = os.path.splitext(self.file.name)[1] 
             self.file_extension = ext.lower() 
-
             self.file_hash = self._calculate_hash()
-            
         super().save(*args, **kwargs)
 
     def _calculate_hash(self):
@@ -62,7 +58,6 @@ class ViewHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='view_history')
     document = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='viewers')
     viewed_at = models.DateTimeField(auto_now_add=True)
-
     class Meta:
         unique_together = ('user', 'document')
         verbose_name_plural = "История просмотра"
