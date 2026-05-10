@@ -39,7 +39,7 @@ def get_docs_with_icons(documents):
 @login_required
 def document_list(request):
     last_download_docs = Document.objects.filter(uploaded_by=request.user).order_by('-uploaded_at')[:4]
-    viewed_docs_ids = list(ViewHistory.objects.filter(user=request.user).values_list('document_id', flat=True).order_by('-viewed_at')[:5])
+    viewed_docs_ids = list(ViewHistory.objects.filter(user=request.user).values_list('document_id', flat=True).order_by('-viewed_at')[:4])
     last_viewed_docs = list(Document.objects.filter(id__in=viewed_docs_ids))
     last_viewed_docs.sort(key=lambda doc: viewed_docs_ids.index(doc.id))
 
