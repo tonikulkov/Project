@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ document.title }}</title>
+    <script type="text/javascript" src="{{ api_url }}"></script>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+        #placeholder { width: 100%; height: 100%; }
+        iframe{
+            zoom: 1.3;
+        }
+    </style>
+</head>
+<body>
+    <div id="placeholder"></div>
+    <script type="text/javascript">
+        new DocsAPI.DocEditor("placeholder", {
+            "document": {
+                "fileType": "{{ document.file_extension|slice:'1:' }}", 
+                "key": "{{ document.file_hash }}", 
+                "title": "{{ document.title }}{{ document.file_extension }}",
+                "url": "{{ file_url }}" ,
+                "permissions": {
+                    "edit": true,     
+                    "download": true,
+                    "print": true
+                }
+            },
+            "editorConfig": {
+                "mode": "edit", 
+                "lang": "ru",
+                "callbackUrl": "{{ callback_url }}",
+                "customization": {
+                     "forcesave": true 
+    }
+            },
+            "height": "100%",
+            "width": "100%"
+        });
+    </script>
+</body>
+</html>

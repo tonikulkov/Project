@@ -1,0 +1,10 @@
+asgiref
+Django
+gunicorn
+packaging
+pillow
+psycopg2-binary
+sqlparse
+tzdata
+python-dotenv
+requests

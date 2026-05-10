@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Загрузка документа{% endblock %}
+
+{% block content %}
+<div class="upload-container">
+    <div class="upload-card">
+        <h2>Загрузка документа</h2>
+        
+        <form method="post" enctype="multipart/form-data" class="upload-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label>Выберите файл для загрузки:</label>
+                {{ form.file }}
+                
+                {% if form.file.errors %}
+                    <div class="error-msg">
+                        {% for error in form.file.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                
+                <p class="help-text">
+                    Название документа будет установлено автоматически.<br>
+                    Поддерживаемые форматы: PDF, Word, Excel
+                </p>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Загрузить</button>
+                <a href="{% url 'document_list' %}" class="btn-secondary">Отмена</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

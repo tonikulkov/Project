@@ -1,0 +1,22 @@
+Делаю файл скорее для себя
+
+Перейти к файлу курсача
+cd D:\vsprojects\Kursach
+
+Поднять докер
+docker-compose up -d
+
+Команды миграций
+docker-compose exec web python manage.py makemigrations
+docker-compose exec web python manage.py migrate
+
+Создать суперюзера 
+docker-compose exec web python manage.py createsuperuser
+
+Остановка контейнера
+docker-compose down
+
+Полный снос
+docker-compose down -v
+
+docker-compose build --no-cache web полная переустановка 1 контейнера на примере web

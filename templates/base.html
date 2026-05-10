@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'documents/images/favicon.png' %}" type="image/png">
+    <title>{% block title %}Система документооборота{% endblock %}</title>
+    
+
+    <link rel="stylesheet" href="{% static 'documents/style.css' %}">
+</head>
+<body>
+
+   
+    <header class="site-header">
+        <div class="container header-content">
+            <a href="/" class="logo">ДокПоток</a>
+            
+            <nav class="main-nav">
+                <a href="/all_documents/">Все документы</a>
+                <a href="{% url 'my_documents' %}">Мои документы</a>
+                <a href="/upload/">Загрузить новый документ</a>
+            </nav>
+
+          <div class="user-panel">
+                {% if user.is_authenticated %}
+                    {% if user.is_superuser %}
+                        <a href="/admin/" class="username-link" title="Перейти в админ-панель">
+                            {{ user.username }} (Админ)
+                        </a>
+                    {% else %}
+                        <span class="username">{{ user.username }} {{ user_role }}</span>
+                    {% endif %}
+                    
+                    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-link">Выйти</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'user_login' %}" class="btn-link">Вход / Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+  
+    <main class="container">
+       {% if messages %}
+            <div class="messages-container">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                            {% if 'safe' in message.extra_tags %}
+                    {{ message|safe }}
+                {% else %}
+                    {{ message }}
+                {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}
+        
+        {% endblock %}
+    </main>
+
+
+    <footer class="site-footer">
+        <div class="container">
+            &copy; 2026 Курсовой проект by ToniKulkov
+        </div>
+    </footer>
+
+</body>
+</html>

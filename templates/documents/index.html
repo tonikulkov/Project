@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Главная
+{% endblock %}
+
+{% block content %}
+<div class="recent-docs-container">
+    <h3>Последние 4 загруженных документов</h3>
+      <div style="margin-top: 2px; font-size: 11px; color: #888; line-height: 1.2;">
+                    Внимание: после редактирования подождите 8-12 сек, файл грузится на диск.
+      </div>
+    <div class="docs-row">
+        {% if uploaded_documents %}
+            {% for item in uploaded_documents %}
+            <div class="doc-card">
+               <div class="doc-icon">
+                    <img src="{% static 'documents/images/' %}{{ item.icon }}" alt="{{ item.doc.file_extension }}">
+                </div>
+                 <div class="doc-title" title="{{ item.doc.title }}">
+                    {{ item.doc.title }}
+                </div>
+                <div class="doc-actions">
+                   <a href="{% url 'edit_document' item.doc.id %}" target="_blank" class="btn-small btn-open">Открыть</a>
+                    <a href="{{ item.doc.file.url }}" download class="btn-small btn-download">Скачать</a>
+                    <a href="{% url 'delete_document' item.doc.id %}?next={{ request.path }}" 
+                       class="btn-small btn-delete action-btn"
+                       onclick="return confirm('Вы уверены, что хотите удалить этот документ?');">
+                       Удалить
+                    </a>
+                </div>
+
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>Документы еще не загружены.</p>
+        {% endif %}
+    </div>
+</div>
+<hr style="margin: 40px 0; border: 0; border-top: 2px solid #e0e0e0; width: 100%;">
+
+<!-- Блок 2: Недавно открытые -->
+<div class="recent-docs-container">
+    <h3>Недавно открытые документы</h3>
+    <div class="docs-row">
+        {% if viewed_documents %}
+            {% for item in viewed_documents %}
+            <div class="doc-card">
+                <div class="doc-icon">
+                    <img src="{% static 'documents/images/' %}{{ item.icon }}" alt="{{ item.doc.file_extension }}">
+                </div>
+                <div class="doc-title" title="{{ item.doc.title }}">
+                    {{ item.doc.title }}
+                </div>
+                <div class="doc-actions">
+                   <a href="{% url 'view_document' item.doc.id %}" target="_blank" class="btn-small btn-open">Открыть</a>
+                    <a href="{{ item.doc.file.url }}" download class="btn-small btn-download">Скачать</a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>Вы еще не открывали документы.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

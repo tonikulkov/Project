@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Все документы{% endblock %}
+
+{% block content %}
+<div class="recent-docs-container">
+    <h3>Все документы системы</h3>
+    <div style="margin-bottom: 20px;">
+    <form method="GET">
+        <label>Показать документы уровня:</label>
+        <select name="max_level" onchange="this.form.submit()">
+            <option value="">Все доступные</option>
+            {% for r in roles %}
+                <option value="{{ r.level }}" {% if selected_lvl == r.level|stringformat:"s" %}selected{% endif %}>
+                    {{ r.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+</div>
+    <div class="docs-row">
+        {% if documents %}
+            {% for item in documents %}
+            <div class="doc-card" style="max-width: 280px; min-width: 240px;">
+                <div class="doc-icon">
+                    <img src="{% static 'documents/images/' %}{{ item.icon }}" alt="{{ item.doc.file_extension }}">
+                </div>
+                <div class="doc-title" title="{{ item.doc.title }}">
+                    {{ item.doc.title }}
+                </div>
+                <div style="font-size: 12px; color: #666; margin-bottom: 10px; text-align: left; padding: 0 5px;">
+                    <div><strong>Автор:</strong> {{ item.doc.uploaded_by.username }}</div>
+                    <div><strong>Роль:</strong> {{ item.doc.access_level.name|default:"Нет роли" }}</div>
+                    <div><strong>Дата:</strong> {{ item.doc.uploaded_at|date:"d.m.Y" }}</div>
+                </div>
+                <div class="doc-actions">
+                   <a href="{% url 'view_document' item.doc.id %}" target="_blank" class="btn-small btn-open">Открыть</a>
+                   <a href="{{ item.doc.file.url }}" download class="btn-small btn-download">Скачать</a>
+                   {% if user_role and user_role.name == "Начальник" %}
+                   <a href="{% url 'delete_document' item.doc.id %}?next={{ request.path }}" 
+                      class="btn-small btn-delete"
+                      onclick="return confirm('Вы уверены, что хотите удалить этот документ, босс? Это действие необратимо.');">
+                      Удалить
+                   </a>
+                   {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>В системе пока нет документов.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

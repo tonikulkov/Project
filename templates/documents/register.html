@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<style>
+    .alert, 
+    .alert-success, 
+    .alert-error, 
+    .alert-warning, 
+    .alert-info {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        display: block !important;
+    }
+
+
+    .messages-container {
+        position: static !important; 
+        margin-bottom: 20px;
+        z-index: 9999;
+    }
+</style>
+<div class="auth-container">
+    <h2>Регистрация</h2>
+
+
+    <p class="hint">При регистрации вам автоматически присваивается роль: <b>Офисный работник</b></p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-secondary">Зарегистрироваться</button>
+    </form>
+    <div class="auth-footer">
+        Уже есть аккаунт? <a href="{% url 'user_login' %}">Войти</a>
+    </div>
+</div>
+{% endblock %}
