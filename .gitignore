@@ -39,4 +39,3 @@ db.sqlite3-journal
 Thumbs.db
 .env
 *.log
-migrations/
