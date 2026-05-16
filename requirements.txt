@@ -8,3 +8,4 @@ sqlparse
 tzdata
 python-dotenv
 requests
+python-magic
