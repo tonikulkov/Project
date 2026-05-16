@@ -2,6 +2,7 @@ from django import forms
 from .models import Document
 from django.core.exceptions import ValidationError
 import magic
+import os
 MAX_FILE_SIZE = 40 * 1024 * 1024 
 def validate_file_size(value):
     if value.size > MAX_FILE_SIZE:
