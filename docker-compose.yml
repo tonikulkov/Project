@@ -3,7 +3,7 @@
     db:
     
       image: postgres:16
-      container_name: kursach-db
+      container_name: db
       restart: always
       environment:
         POSTGRES_DB: ${POSTGRES_DB}
@@ -16,7 +16,7 @@
 
     web:
       build: .
-      container_name: kursach-web
+      container_name: web
       restart: always
       command:  sh -c "python manage.py migrate && 
              python manage.py collectstatic --noinput && 
