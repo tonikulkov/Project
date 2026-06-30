@@ -1,7 +1,7 @@
-Делаю файл скорее для себя
 
-Перейти к файлу курсача
-cd D:\vsprojects\Kursach
+
+Перейти к файлу 
+cd D:\vsprojects\Project
 
 Поднять докер
 docker-compose up -d
